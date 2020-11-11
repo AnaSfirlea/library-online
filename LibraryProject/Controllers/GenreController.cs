@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using LibraryProject.Repositories;
 using LibraryProject.Dtos;
+using LibraryProject.Services;
 
 namespace LibraryProject.Controllers
 {
@@ -11,48 +12,32 @@ namespace LibraryProject.Controllers
     [Route("api/genres")]
     public class GenreController : ControllerBase
     {
-        private readonly IGenreRepository genreRepository;
+        private readonly IGenreService genreService;
         private readonly IMapper mapper;
 
-        public GenreController(IGenreRepository genreRepository, IMapper mapper)
+        public GenreController(IGenreService genreService, IMapper mapper)
         {
-            this.genreRepository = genreRepository ??
-                throw new ArgumentNullException(nameof(genreRepository));
+            this.genreService = genreService ??
+                throw new ArgumentNullException(nameof(genreService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
         public IActionResult GetGenres()
         {
-            var genreEntities = genreRepository.GetGenres();
-
-            return Ok(mapper.Map<IEnumerable<GenreDto>>(genreEntities));
+            return Ok(genreService.GetGenres());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetGenre(int id)
         {
-            var genre = genreRepository.GetGenre(id);
-
-            if (genre == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(mapper.Map<GenreDto>(genre));
+            return Ok(genreService.GetGenre(id));
         }
 
         [HttpGet("name/{name}")]
         public IActionResult GetGenreByName(string name)
         {
-            var genre = genreRepository.GetGenreByName(name);
-
-            if (genre == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(mapper.Map<GenreDto>(genre));
+           return Ok(genreService.GetGenreByName(name));
         }
     }
 }

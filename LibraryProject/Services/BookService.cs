@@ -11,7 +11,6 @@ namespace LibraryProject.Services
 {
     public class BookService : IBookService
     {
-
         private readonly IBookRepository bookRepository;
 
         private readonly IMapper mapper;
@@ -57,7 +56,6 @@ namespace LibraryProject.Services
 
         public Book UpdateBook(BookDto bookDto)
         {
-
             Book finalBook = mapper.Map<Book>(bookDto);
 
             bookRepository.UpdateBook(finalBook);

@@ -17,8 +17,6 @@ namespace LibraryProject.Controllers
     [Route("api/books")]
     public class BookController : ControllerBase
     {
-        //private readonly IBookRepository bookRepository;
-
         private readonly IBookService bookService;
 
         private readonly IMapper mapper;
@@ -31,14 +29,9 @@ namespace LibraryProject.Controllers
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-
         [HttpGet]
         public IActionResult GetBooks()
         {
-            //var bookEntities = bookRepository.GetBooks();
-
-            //return Ok(mapper.Map<IEnumerable<BookDto>>(bookEntities));
-
             return Ok(bookService.GetBooks());
 
         }
@@ -46,32 +39,13 @@ namespace LibraryProject.Controllers
         [HttpGet("{id}")]
         public IActionResult GetBook(int id)
         {
-            //var book = bookRepository.GetBook(id);
-
-            //if (book == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return Ok(mapper.Map<BookDto>(book));
-
             return Ok(bookService.GetBook(id));
         }
 
         [HttpGet("title/{title}")]
-        public IActionResult GetBookByTitle(string title) {
-
-            //var book = bookRepository.GetBookByTitle(title);
-
-            //if (book == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return Ok(mapper.Map<BookDto>(book));
-
+        public IActionResult GetBookByTitle(string title)
+        {
             return Ok(bookService.GetBookByTitle(title));
-
         }
 
         [HttpPost]
@@ -79,18 +53,10 @@ namespace LibraryProject.Controllers
         {
             try
             {
-                //Book finalBook = mapper.Map<Book>(bookDto);
-
-                //bookRepository.AddBook(finalBook);
-                //var save = bookRepository.Save();
-
-                //return Ok(finalBook);
-
                 return Ok(bookService.AddBook(bookDto));
             }
             catch (Exception e)
             {
-
                 return Ok();
             }
         }
@@ -100,18 +66,10 @@ namespace LibraryProject.Controllers
         {
             try
             {
-                //Book finalBook = mapper.Map<Book>(bookDto);
-
-                //bookRepository.UpdateBook(finalBook);
-                //var save = bookRepository.Save();
-
-                //return Ok(finalBook);
-
                 return Ok(bookService.UpdateBook(bookDto));
             }
             catch (Exception e)
             {
-
                 return Ok();
             }
         }
@@ -120,18 +78,7 @@ namespace LibraryProject.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteBook(int id)
         {
-            //Book bookEntity = bookRepository.GetBook(id);
-            //if (bookEntity == null)
-            //{
-            //    return NotFound();
-            //}
-            //bookRepository.DeleteBook(bookEntity);
-            //bookRepository.Save();
-
-            //return Ok("true");
-
             return Ok(bookService.DeleteBook(id));
-
         }
 
     }
