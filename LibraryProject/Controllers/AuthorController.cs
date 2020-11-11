@@ -2,6 +2,7 @@
 using LibraryProject.Dtos;
 using LibraryProject.Entities;
 using LibraryProject.Repositories;
+using LibraryProject.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,14 @@ namespace LibraryProject.Controllers
     [Route("api/authors")]
     public class AuthorController : ControllerBase
     {
-        private readonly IAuthorRepository authorRepository;
+        private readonly IAuthorService authorService;
 
         private readonly IMapper mapper;
 
-        public AuthorController(IAuthorRepository authorRepository, IMapper mapper)
+        public AuthorController(IAuthorService authorService, IMapper mapper)
         {
-            this.authorRepository = authorRepository ??
-                throw new ArgumentNullException(nameof(authorRepository));
+            this.authorService = authorService ??
+                throw new ArgumentNullException(nameof(authorService));
 
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
@@ -31,35 +32,19 @@ namespace LibraryProject.Controllers
         [HttpGet]
         public IActionResult GetAuthors()
         {
-            var authorEntities = authorRepository.GetAuthors();
-
-            return Ok(mapper.Map<IEnumerable<AuthorDto>>(authorEntities));
+            return Ok(authorService.GetAuthors());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetAuthor(int id)
         {
-            var author = authorRepository.GetAuthor(id);
-
-            if (author == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(mapper.Map<AuthorDto>(author));
+            return Ok(authorService.GetAuthor(id));
         }
 
         [HttpGet("name/{name}")]
         public IActionResult GetAuthorByLastName(string name)
         {
-            var author = authorRepository.GetAuthorByLastName(name);
-
-            if (author == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(mapper.Map<AuthorDto>(author));
+            return Ok(authorService.GetAuthorByLastName(name));
         }
 
         [HttpPost]
@@ -67,12 +52,7 @@ namespace LibraryProject.Controllers
         {
             try
             {
-                Author finalAuthor = mapper.Map<Author>(authorDto);
-
-                authorRepository.AddAuthor(finalAuthor);
-                var save = authorRepository.Save();
-
-                return Ok(finalAuthor);
+                return Ok(authorService.AddAuthor(authorDto));
             }
             catch (Exception e)
             {

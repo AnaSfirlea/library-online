@@ -99,6 +99,22 @@ namespace LibraryProject.Entities
                    LastName = "Weir",
                    DebutYear = 2006,
                    Ranking = 2
+               },
+               new Author()
+               {
+                   Id = 7,
+                   FirstName = "Martha",
+                   LastName = "Stewart",
+                   DebutYear = 2006,
+                   Ranking = 2
+               },
+               new Author()
+               {
+                   Id = 8,
+                   FirstName = "John",
+                   LastName = "Doe",
+                   DebutYear = 2006,
+                   Ranking = 2
                }
                );
 

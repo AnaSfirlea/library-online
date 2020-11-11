@@ -41,15 +41,16 @@ namespace LibraryProject
             });
 
             services.AddScoped<IGenreRepository, GenreRepository>();
+
             services.AddScoped<IBookRepository, BookRepository>();
 
+            services.AddScoped<IGenreService, GenreService>();
 
             services.AddScoped<IBookService, BookService>();
 
             services.AddScoped<IAuthorRepository, AuthorRepository>();
 
-
-            //TO-DO add all the repositories to the scope
+            services.AddScoped<IAuthorService, AuthorService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
